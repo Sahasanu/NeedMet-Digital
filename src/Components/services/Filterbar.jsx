@@ -23,7 +23,7 @@ export default function FilterBar({
 
     return (
 
-        <section className="sticky top-20 z-40 border-b border-[#bcc9c6]/20 bg-[#faf8ff]/80 px-4 py-4 backdrop-blur-md">
+        <section className=" border-b border-[#bcc9c6]/20 bg-[#faf8ff]/80 px-4 py-4 backdrop-blur-md">
             {/* Desktop */}
             <div className="hidden items-center justify-between gap-4 md:flex">
                 <CategoryTabs

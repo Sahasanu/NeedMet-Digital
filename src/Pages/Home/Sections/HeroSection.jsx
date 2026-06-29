@@ -13,29 +13,30 @@ export default function HeroSection({
     title = "Grow Your Business",
     highlight = "Digitally",
     description = "Accelerate your growth with professionally managed digital services. From SEO to social media, we deliver measurable results through data-driven strategies.",
-    image = heroImage
+    image = heroImage,
 }) {
     return (
-        <section id="about" className="relative overflow-hidden py-24 scroll-mt-36 px-5">
+        <section
+            id="about"
+            className="relative overflow-hidden scroll-mt-36 px-5 py-12 sm:py-16 lg:py-24"
+        >
+            {/* Background Blob */}
             <div
-                className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gradient-to-br from-[#00685f] to-[#008378] opacity-10 blur-3xl transition-transform duration-150"
+                className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-gradient-to-br from-[#00685f] to-[#008378] opacity-10 blur-3xl transition-transform duration-150 sm:h-80 sm:w-80 lg:h-96 lg:w-96"
                 style={{
-                    transform: `translate(${parallax.x}px, ${parallax.y}px)`
+                    transform: `translate(${parallax.x}px, ${parallax.y}px)`,
                 }}
             />
 
-            <div className="flex flex-col items-center gap-16 lg:flex-row">
+            <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:gap-16">
 
-                <div className="flex-1 space-y-8">
+                {/* Left Content */}
+                <div className="flex-1 space-y-6 sm:space-y-8">
 
-                    <HeroBadge
-                        text={badge}
-                    />
+                    <HeroBadge text={badge} />
 
-                    <div>
-
-                        <h1 className="text-5xl font-bold leading-tight text-[#131b2e] lg:text-7xl">
-
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold leading-tight text-[#131b2e] sm:text-5xl lg:text-7xl">
                             {title}
 
                             <br />
@@ -43,19 +44,17 @@ export default function HeroSection({
                             <span className="font-normal italic text-[#00685f]">
                                 {highlight}
                             </span>
-
                         </h1>
-
                     </div>
 
-                    <p className="max-w-xl text-lg leading-relaxed text-[#216963]">
+                    <p className="max-w-xl text-base leading-7 text-[#216963] sm:text-lg sm:leading-8">
                         {description}
                     </p>
 
-                    <div className="flex flex-wrap gap-5">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
 
                         <Button
-                            className="px-12 py-4"
+                            className="w-full px-8 py-3 sm:w-auto sm:px-10 lg:px-12"
                             onClick={() => scrollToSection("services")}
                         >
                             Browse Plans
@@ -63,7 +62,7 @@ export default function HeroSection({
 
                         <Button
                             variant="secondary"
-                            className="px-12 py-4"
+                            className="w-full px-8 py-3 sm:w-auto sm:px-10 lg:px-12"
                             onClick={() => scrollToSection("reviews")}
                         >
                             View Portfolio
@@ -73,9 +72,10 @@ export default function HeroSection({
 
                 </div>
 
-                <div className="relative hidden flex-1 lg:block">
+                {/* Right Image */}
+                <div className="relative w-full max-w-sm flex-1 sm:max-w-md lg:max-w-none">
 
-                    <div className="aspect-square overflow-hidden rounded-3xl shadow-2xl">
+                    <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl lg:rounded-3xl">
 
                         <div className="absolute inset-0 bg-gradient-to-br from-[#00685f] to-[#008378] opacity-10" />
 
@@ -87,16 +87,18 @@ export default function HeroSection({
 
                     </div>
 
-                    <HeroStatsCard
-                        title="Avg. Growth"
-                        value="142%"
-                        progress={75}
-                    />
+                    {/* Stats Card - Only Desktop */}
+                    <div className="hidden lg:block">
+                        <HeroStatsCard
+                            title="Avg. Growth"
+                            value="142%"
+                            progress={75}
+                        />
+                    </div>
 
                 </div>
 
             </div>
-
         </section>
     );
 }

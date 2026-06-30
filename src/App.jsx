@@ -7,7 +7,7 @@ import ServiceDetails from './Pages/Pricing/ServiceDetails'
 
 function App() {
   return (
-    <div className="bg-[#faf8ff]">
+    <div className="bg-background-secondary">
       <Router>
         <Routes>
           <Route element={<Layout />}>

@@ -20,10 +20,10 @@ export default function FilterBar({
     onSort,
     sortBy = "default"
 }) {
-
+console.log (categories)
     return (
 
-        <section className=" border-b border-[#bcc9c6]/20 bg-[#faf8ff]/80 px-4 py-4 backdrop-blur-md">
+        <section className=" border-b border-border/20 bg-background-secondary/80 px-4 py-4 backdrop-blur-md">
             {/* Desktop */}
             <div className="hidden items-center justify-between gap-4 md:flex">
                 <CategoryTabs
@@ -39,8 +39,8 @@ export default function FilterBar({
                 />
 
                 <SortButton
-                    onClick={onSort}
-                    label={SORT_LABELS[sortBy] || "Sort"}
+                    value={sortBy}
+                    onChange={onSort}
                 />
             </div>
 
@@ -60,8 +60,8 @@ export default function FilterBar({
                     />
 
                     <SortButton
-                        onClick={onSort}
-                        label={SORT_LABELS[sortBy] || "Sort"}
+                        value={sortBy}
+                        onChange={onSort}
                     />
                 </div>
             </div>

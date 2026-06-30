@@ -1,7 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Badge from "../common/Badge";
-import Tag from "../common/Tag";
-import IconButton from "../common/Iconbutton";
 
 export default function ServiceCard({
     id,
@@ -16,7 +13,6 @@ export default function ServiceCard({
     featured = false,
     buttonIcon = "add_shopping_cart"
 }) {
-
     const navigate = useNavigate();
 
     const handleCardClick = () => {
@@ -26,7 +22,6 @@ export default function ServiceCard({
     };
 
     return (
-
         <div
             onClick={handleCardClick}
             role={id ? "link" : undefined}
@@ -37,129 +32,85 @@ export default function ServiceCard({
                     handleCardClick();
                 }
             }}
-            className={`
-            group
-            overflow-hidden
-            rounded-3xl
-            border
-            bg-white
-            transition-all
-            duration-300
-            hover:-translate-y-2
-            hover:shadow-2xl
-            ${id ? "cursor-pointer" : ""}
-
-            ${featured
-                    ? "border-2 border-[#00685f]/30"
-                    : "border-[#bcc9c6]/30"
-                }
-            `}
+            className={`group bg-white rounded-3xl border overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 ${
+                featured ? "border-primary/40 ring-2 ring-primary/10" : "border-border/50 hover:border-primary/30"
+            } ${id ? "cursor-pointer" : ""}`}
         >
-
             {/* IMAGE */}
-
             <div className="relative h-48 overflow-hidden">
-
                 <img
                     src={image}
                     alt={title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
                 {badge && (
-
-                    <div className="absolute left-4 top-4">
-
-                        <Badge
-                            className={
-                                badgeColor ||
-                                "bg-white text-[#00685f]"
-                            }
-                        >
+                    <div className="absolute top-4 left-4">
+                        <span className={`${badgeColor || "bg-white/90 text-primary"} backdrop-blur px-3 py-1 rounded-full text-xs font-semibold shadow-sm`}>
                             {badge}
-                        </Badge>
-
+                        </span>
                     </div>
-
                 )}
-
             </div>
 
             {/* CONTENT */}
-
-            <div className="space-y-5 p-6">
-
-                <div className="flex items-center gap-2">
-
-                    <span className="material-symbols-outlined text-[#00685f]">
+            <div className="p-5 space-y-3">
+                {/* TITLE */}
+                <div className="flex items-start gap-2 h-[56px]">
+                    <span className="material-symbols-outlined mt-0.5 text-primary shrink-0">
                         {icon}
                     </span>
-
-                    <h3 className="text-2xl font-semibold">
-
+                    <h3
+                        className="text-lg font-bold text-text line-clamp-2 leading-tight"
+                        title={title}
+                    >
                         {title}
-
                     </h3>
-
                 </div>
 
-                <p className="line-clamp-2 text-[#216963]">
-
+                {/* DESCRIPTION */}
+                <p
+                    className="text-sm text-text-secondary line-clamp-2 h-[40px] leading-tight"
+                    title={description}
+                >
                     {description}
-
                 </p>
 
                 {/* TAGS */}
-
-                <div className="flex flex-wrap gap-2">
-
-                    {tags.map((tag) => (
-
-                        <Tag
-                            key={tag}
-                            label={tag}
-                        />
-
-                    ))}
-
+                <div className="flex flex-wrap gap-2 h-[26px] overflow-hidden">
+                    {tags.length > 0 ? (
+                        tags.map((tag, idx) => (
+                            <span key={idx} className="bg-background-secondary px-2 py-1 rounded-lg text-xs font-medium text-text-secondary border border-border/50">
+                                {tag}
+                            </span>
+                        ))
+                    ) : (
+                        <span className="bg-transparent px-2 py-1 rounded-lg text-xs invisible">placeholder</span>
+                    )}
                 </div>
 
-                {/* PRICE */}
-
-                <div className="flex items-center justify-between border-t pt-5">
-
+                {/* PRICE & ACTION */}
+                <div className="pt-4 flex items-center justify-between border-t border-border/40 mt-auto">
                     <div>
-
-                        <p className="text-xs text-[#216963]">
-
-                            {featured
-                                ? "Bundle Price"
-                                : "Starts at"}
-
+                        <p className="text-xs text-text-secondary mb-0.5 font-medium">
+                            {featured ? "Bundle Price" : "Starts at"}
                         </p>
-
-                        <h3 className="text-2xl font-bold text-[#00685f]">
-
+                        <p className="text-xl font-bold text-primary leading-none">
                             {price}
-
-                        </h3>
-
-                    </div>
-                    <div onClick={(e) => e.stopPropagation()}>
-                        <IconButton
-                            to={id ? `/service/${id}` : undefined}
-                            variant={featured ? "primary" : "default"}
-                            icon={buttonIcon}
-                        />
+                        </p>
                     </div>
 
-
+                    <button 
+                        className="bg-primary/10 hover:bg-primary text-primary hover:text-white p-3 rounded-2xl transition-all flex items-center justify-center shrink-0"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleCardClick();
+                        }}
+                    >
+                        <span className="material-symbols-outlined">{buttonIcon}</span>
+                    </button>
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }

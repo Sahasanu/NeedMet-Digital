@@ -1,15 +1,15 @@
 const variants = {
   primary:
-    "bg-gradient-to-br from-[#00685f] to-[#008378] text-white shadow-lg hover:scale-105",
+    "bg-gradient-to-br from-primary to-primary-light text-white shadow-lg hover:scale-105",
 
   secondary:
-    "bg-white border border-[#bcc9c6] hover:bg-[#dae2fd]/20 text-[#131b2e]",
+    "bg-white border border-border hover:bg-primary-surface/20 text-text",
 
   outline:
-    "border border-[#00685f] text-[#00685f] hover:bg-[#00685f] hover:text-white",
+    "border border-primary text-primary hover:bg-primary hover:text-white",
 
   ghost:
-    "text-[#216963] hover:text-[#00685f]"
+    "text-text-secondary hover:text-primary"
 };
 
 export default function Button({

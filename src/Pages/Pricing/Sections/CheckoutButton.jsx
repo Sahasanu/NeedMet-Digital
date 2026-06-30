@@ -9,8 +9,8 @@ export default function CheckoutButton({ onClick }) {
             w-full
             rounded-xl
             bg-gradient-to-r
-            from-[#00685f]
-            to-[#008378]
+            from-primary
+            to-primary-light
             py-4
             font-semibold
             text-white

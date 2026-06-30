@@ -42,40 +42,36 @@ export const FEATURES = [
 
 export const PLANS = {
 
-    "3 Months":{
+  "3 Months": {
 
-        months:3,
+    months: 3,
+    price: 14999,
+    discount: 0,
 
-        discount:0,
+    tag: "Starter",
 
-        tag:"Starter",
+    description: "Perfect for startups."
 
-        description:"Perfect for startups."
+  },
 
-    },
+  "6 Months": {
+    months: 6,
+    price: 14200,
+    discount: 350,
+    tag: "Popular",
+    description: "Best balance between growth and budget."
+  },
 
-    "6 Months":{
+  "12 Months": {
 
-        months:6,
+    months: 12,
+    price: 13999,
+    discount: 1200,
 
-        discount:350,
+    tag: "Best Value",
 
-        tag:"Popular",
+    description: "Maximum ROI with long term strategy."
 
-        description:"Best balance between growth and budget."
-
-    },
-
-    "12 Months":{
-
-        months:12,
-
-        discount:1200,
-
-        tag:"Best Value",
-
-        description:"Maximum ROI with long term strategy."
-
-    }
+  }
 
 }

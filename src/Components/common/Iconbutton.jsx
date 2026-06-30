@@ -9,10 +9,10 @@ export default function IconButton({
 
     const styles = {
         default:
-            "bg-[#00685f]/5 text-[#00685f] hover:bg-[#00685f] hover:text-white",
+            "bg-primary/5 text-primary hover:bg-primary hover:text-white",
 
         primary:
-            "bg-gradient-to-br from-[#00685f] to-[#008378] text-white"
+            "bg-gradient-to-br from-primary to-primary-light text-white"
     };
 
     const className = `inline-flex rounded-2xl p-3 transition-all duration-300 ${styles[variant]}`;

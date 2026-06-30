@@ -17,13 +17,13 @@ export default function Navbar() {
     };
 
     return (
-        <header className="sticky top-0 z-50 h-16 sm:h-18 lg:h-20 border-b border-[#bcc9c6]/20 bg-[#faf8ff]/80 backdrop-blur-md">
+        <header className="sticky top-0 z-50 h-16 sm:h-18 lg:h-20 border-b border-border/20 bg-background-secondary/80 backdrop-blur-md">
             <Container className="flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
 
                 {/* Logo */}
                 <Link
                     to="/"
-                    className="truncate text-2xl font-bold text-[#00685f] sm:text-2xl lg:text-4xl"
+                    className="truncate text-2xl font-bold text-primary sm:text-2xl lg:text-4xl"
                 >
                     NeedMet Digital
                 </Link>

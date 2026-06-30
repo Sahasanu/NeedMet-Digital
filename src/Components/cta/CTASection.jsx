@@ -7,7 +7,7 @@ export default function CTASection({
 }) {
   return (
     <section className="py-2 sm:py-16 lg:py-20 px-5">
-      <div className="relative overflow-hidden rounded-3xl lg:rounded-[40px] bg-gradient-to-br from-[#00685f] to-[#008378] px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20 text-center text-white shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl lg:rounded-[40px] bg-gradient-to-br from-primary to-primary-light px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20 text-center text-white shadow-2xl">
 
         {/* Background Blobs */}
         <div className="absolute inset-0 opacity-10">

@@ -22,7 +22,7 @@ export default function HeroSection({
         >
             {/* Background Blob */}
             <div
-                className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-gradient-to-br from-[#00685f] to-[#008378] opacity-10 blur-3xl transition-transform duration-150 sm:h-80 sm:w-80 lg:h-96 lg:w-96"
+                className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-gradient-to-br from-primary to-primary-light opacity-10 blur-3xl transition-transform duration-150 sm:h-80 sm:w-80 lg:h-96 lg:w-96"
                 style={{
                     transform: `translate(${parallax.x}px, ${parallax.y}px)`,
                 }}
@@ -35,19 +35,19 @@ export default function HeroSection({
 
                     <HeroBadge text={badge} />
 
-                    <div className="text-center">
-                        <h1 className="text-4xl font-bold leading-tight text-[#131b2e] sm:text-5xl lg:text-7xl">
+                    <div className="">
+                        <h1 className="text-4xl font-bold leading-tight text-text sm:text-5xl lg:text-7xl">
                             {title}
 
                             <br />
 
-                            <span className="font-normal italic text-[#00685f]">
+                            <span className="font-normal italic text-primary">
                                 {highlight}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="max-w-xl text-base leading-7 text-[#216963] sm:text-lg sm:leading-8">
+                    <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8">
                         {description}
                     </p>
 
@@ -65,7 +65,7 @@ export default function HeroSection({
                             className="w-full px-8 py-3 sm:w-auto sm:px-10 lg:px-12"
                             onClick={() => scrollToSection("reviews")}
                         >
-                            View Portfolio
+                            View Reviews
                         </Button>
 
                     </div>
@@ -77,7 +77,7 @@ export default function HeroSection({
 
                     <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl lg:rounded-3xl">
 
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#00685f] to-[#008378] opacity-10" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light opacity-10" />
 
                         <img
                             src={image}

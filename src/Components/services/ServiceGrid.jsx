@@ -20,10 +20,10 @@ export default function ServiceGrid({
                             key={service.id}
                             id={service.id}
                             title={service.title}
-                            description={service.desc}
-                            image={service.imgUrl}
+                            description={service.description}
+                            image={service.image || service.imgUrl}
                             icon={service.icon}
-                            price={service.price}
+                            price={service.pricing?.price ? `₹${service.pricing.price.toLocaleString("en-IN")}` : service.price}
                             tags={service.tags}
                             badge={service.badge}
                             badgeColor={service.badgeColor}
@@ -37,10 +37,10 @@ export default function ServiceGrid({
                             id={featuredService.id}
                             featured
                             title={featuredService.title}
-                            description={featuredService.desc}
-                            image={featuredService.imgUrl}
+                            description={featuredService.description || featuredService.desc}
+                            image={featuredService.image || featuredService.imgUrl}
                             icon={featuredService.icon}
-                            price={featuredService.price}
+                            price={featuredService.pricing?.price ? `₹${featuredService.pricing.price.toLocaleString("en-IN")}` : featuredService.price}
                             tags={featuredService.tags}
                             badge={featuredService.badge}
                             badgeColor={featuredService.badgeColor}

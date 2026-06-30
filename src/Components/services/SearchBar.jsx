@@ -6,7 +6,7 @@ export default function SearchBar({
     return (
         <div className="relative w-full md:w-72">
 
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#216963]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">
                 search
             </span>
 
@@ -15,7 +15,7 @@ export default function SearchBar({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="w-full rounded-xl border border-[#bcc9c6] bg-white py-3 pl-10 pr-4 outline-none transition-all focus:border-[#00685f] focus:ring-2 focus:ring-[#00685f]/20"
+                className="w-full rounded-xl border border-border bg-white py-3 pl-10 pr-4 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
 
         </div>

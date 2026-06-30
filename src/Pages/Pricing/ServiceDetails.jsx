@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import SERVICES_DATA from "../../data/services";
-import { PLANS, FEATURES, TIMELINE } from "../../data/planDetails";
+import { FEATURES, TIMELINE } from "../../data/planDetails";
 
 import usePricing from "../../hooks/usePricing";
+import { fetchServiceWithPlans } from "../../services/firebase/service";
 
 import ServiceHero from "./Sections/ServiceHero";
 import FeatureGrid from "./Sections/FeatureGrid";
@@ -11,27 +11,57 @@ import PlanSelector from "./Sections/PlanSelector";
 import Timeline from "./Sections/Timeline";
 import OrderSummary from "./Sections/OrderSummary";
 
-const DEFAULT_PLAN = PLANS["6 Months"];
-
 export default function ServiceDetails() {
   const { id } = useParams();
 
-  const [selectedPlan, setSelectedPlan] = useState("6 Months");
+  const [service, setService] = useState(null);
+  const [plansArray, setPlansArray] = useState([]);
+  const [plansMap, setPlansMap] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [selectedPlanId, setSelectedPlanId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Full");
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponMessage, setCouponMessage] = useState("");
   const [showOrderSummary, setShowOrderSummary] = useState(false);
 
-  const service = SERVICES_DATA.find(
-    (item) => item.id === Number(id)
-  );
+  // Fetch the service and its merged plans on mount
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const { service, plans } = await fetchServiceWithPlans(id);
+        
+        setService(service);
+        setPlansArray(plans);
+        
+        // Convert array to map for easy lookup by ID
+        const map = {};
+        plans.forEach(p => {
+          map[p.id] = p;
+        });
+        setPlansMap(map);
 
-  const currentPlan = PLANS[selectedPlan] || DEFAULT_PLAN;
+        // Set the default selected plan to the first one in the sorted list
+        if (plans.length > 0) {
+          setSelectedPlanId(plans[0].id);
+        }
 
-  const parsePrice = (priceStr) =>
-    Number(priceStr.toString().replace(/[^\d]/g, ""));
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load service details.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, [id]);
 
-  const basePrice = service ? parsePrice(service.price) : 0;
+  const currentPlan = plansMap[selectedPlanId] || { months: 1, discount: 0, tag: "", description: "", name: "", price: 0 };
+  
+  const basePrice = currentPlan.price || 0;
 
   const pricing = usePricing(
     currentPlan,
@@ -39,20 +69,28 @@ export default function ServiceDetails() {
     couponDiscount
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
+
   if (!service) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
-        <h1 className="text-3xl font-bold text-[#131b2e]">
+        <h1 className="text-3xl font-bold text-text">
           Service Not Found
         </h1>
 
-        <p className="text-[#216963]">
+        <p className="text-text-secondary">
           The service you are looking for does not exist.
         </p>
 
         <Link
           to="/"
-          className="rounded-full bg-[#00685f] px-8 py-3 font-medium text-white transition hover:scale-105"
+          className="rounded-full bg-primary px-8 py-3 font-medium text-white transition hover:scale-105"
         >
           Back to Home
         </Link>
@@ -86,7 +124,7 @@ export default function ServiceDetails() {
       `Order confirmed!
 
 Service: ${service.title}
-Plan: ${selectedPlan}
+Plan: ${currentPlan.name}
 Payment: ${paymentMethod}
 Total: ₹${pricing.grand.toLocaleString("en-IN")}
 
@@ -107,9 +145,10 @@ Thank you for choosing NeedMet Digital!`
             <FeatureGrid features={FEATURES} />
 
             <PlanSelector
-              plans={PLANS}
-              selectedPlan={selectedPlan}
-              onSelect={setSelectedPlan}
+              plans={plansArray}
+              selectedPlanId={selectedPlanId}
+              onSelect={setSelectedPlanId}
+              basePrice={basePrice}
             />
 
             <Timeline timeline={TIMELINE} />
@@ -134,15 +173,15 @@ Thank you for choosing NeedMet Digital!`
       </div>
 
       {/* ================= MOBILE STICKY BAR ================= */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#bcc9c6]/20 bg-white/95 p-4 backdrop-blur-md lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/20 bg-white/95 p-4 backdrop-blur-md lg:hidden">
 
         <button
           onClick={() => setShowOrderSummary(true)}
-          className="flex w-full items-center justify-between rounded-2xl bg-[#00685f] px-5 py-4 text-white shadow-xl"
+          className="flex w-full items-center justify-between rounded-2xl bg-primary px-5 py-4 text-white shadow-xl"
         >
           <div className="text-left">
             <p className="text-xs text-white/80">
-              {selectedPlan}
+              {currentPlan.name}
             </p>
 
             <p className="text-xl font-bold">

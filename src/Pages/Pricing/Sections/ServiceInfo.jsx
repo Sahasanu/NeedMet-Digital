@@ -5,7 +5,7 @@ export default function ServiceInfo({ service }) {
         <div className="space-y-4 sm:space-y-6">
             <div className="group relative h-[260px] overflow-hidden rounded-2xl sm:h-[340px] sm:rounded-3xl lg:h-[420px] lg:rounded-[32px]">
                 <img
-                    src={service.imgUrl}
+                    src={service.image}
                     alt={service.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -14,7 +14,7 @@ export default function ServiceInfo({ service }) {
 
                 <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 lg:bottom-8 lg:left-8 lg:right-8 text-white">
 
-                    <span className="inline-block rounded-lg bg-[#00685f]/90 px-3 py-1 text-[10px] font-medium uppercase tracking-wider sm:text-xs">
+                    <span className="inline-block rounded-lg bg-primary/90 px-3 py-1 text-[10px] font-medium uppercase tracking-wider sm:text-xs">
                         {service.category || service.tags?.[0] || "Digital Service"}
                     </span>
 

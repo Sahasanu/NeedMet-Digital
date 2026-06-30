@@ -7,21 +7,21 @@ export default function PaymentOption({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer rounded-xl border-2 p-2 transition-all text-center ${
+      className={`cursor-pointer rounded-xl border-2 px-2 py-1 transition-all text-center ${
         selected
-          ? "border-[#00685f]"
-          : "border-[#bcc9c6]/30 hover:border-[#00685f]/40"
+          ? "border-primary"
+          : "border-border/30 hover:border-primary/40"
       }`}
     >
       <span
         className={`material-symbols-outlined ${
-          selected ? "text-[#00685f]" : "text-[#216963]"
+          selected ? "text-primary" : "text-text-secondary"
         }`}
       >
         {icon}
       </span>
 
-      <p className="mt-1 text-sm font-semibold">
+      <p className=" text-sm font-semibold">
         {label}
       </p>
     </div>

@@ -2,9 +2,9 @@ import PlanCard from "./PlanCard";
 
 export default function PlanSelector({
   plans,
-  selectedPlan,
+  selectedPlanId,
   onSelect,
-  basePrice
+  basePrice,
 }) {
   return (
     <section className="py-2">
@@ -14,14 +14,14 @@ export default function PlanSelector({
             Select Duration
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {Object.entries(plans).map(([title, plan]) => (
+            {plans.map((plan) => (
               <PlanCard
-                key={title}
-                title={title}
+                key={plan.id}
+                title={plan.name}
                 plan={plan}
-                basePrice={basePrice}
-                selected={selectedPlan === title}
-                onSelect={onSelect}
+                basePrice={plan.price}
+                selected={selectedPlanId === plan.id}
+                onSelect={() => onSelect(plan.id)}
               />
             ))}
           </div>

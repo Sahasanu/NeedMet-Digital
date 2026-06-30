@@ -1,109 +1,147 @@
 import { useMemo, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
+import Container from "../../Components/layout/Container";
 import HeroSection from "./Sections/HeroSection";
 import FilterBar from "../../Components/services/Filterbar";
 import ServiceGrid from "../../Components/services/ServiceGrid";
 import CTASection from "../../Components/cta/CTASection";
 import ReviewSection from "../../Components/reviews/ReviewSection";
 
-import SERVICES_DATA from "../../data/services";
-import REVIEWS_DATA from "../../data/reviews";
+// import SERVICES_DATA from "../../data/services";
+// import REVIEWS_DATA from "../../data/reviews";
 import CATEGORIES from "../../data/categories";
 
 import useParallax from "../../hooks/useParallax";
 import { scrollToSection } from "../../utils/scrollTo";
+import { fetchServices, fetchReviews, fetchCategories } from "../../services/db";
 
-const parsePrice = (price) => Number(price.replace(/[^\d]/g, ""));
+const parsePrice = (price) => {
+    if (!price) return 0;
+    return Number(String(price).replace(/[^\d]/g, ""));
+};
 
 const SORT_OPTIONS = ["default", "price-asc", "price-desc", "title"];
 
 export default function Home() {
-
     const [activeCategory, setActiveCategory] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
     const [sortBy, setSortBy] = useState("default");
 
+    const [servicesData, setServicesData] = useState([]);
+    const [reviewsData, setReviewsData] = useState([]);
+    const [categoriesData, setCategoriesData] = useState(["All"]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const parallax = useParallax();
     const location = useLocation();
 
+    // Fetch data from Firebase on mount
     useEffect(() => {
-        if (location.hash) {
+        const loadData = async () => {
+            setIsLoading(true);
+            const [services, reviews, categories] = await Promise.all([
+                fetchServices(),
+                fetchReviews(),
+                fetchCategories()
+            ]);
+            
+            setServicesData(services);
+            setReviewsData(reviews);
+            setCategoriesData(categories);
+            
+            setIsLoading(false);
+        };
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        if (location.hash && !isLoading) {
             const sectionId = location.hash.replace("#", "");
             requestAnimationFrame(() => scrollToSection(sectionId));
         }
-    }, [location]);
+    }, [location, isLoading]);
 
-    const featuredService = SERVICES_DATA.find((service) => service.featured);
+    const featuredService = useMemo(() => {
+        return servicesData.find((service) => service.featured);
+    }, [servicesData]);
 
     const filteredServices = useMemo(() => {
-        let result = SERVICES_DATA.filter((service) => {
+        let result = servicesData.filter((service) => {
             if (service.featured) return false;
 
+            const categoryParam = activeCategory.toLowerCase().replace(/ /g, '-');
             const matchesCategory =
                 activeCategory === "All" ||
+                (service.categoryId === categoryParam) || 
                 (service.tags && service.tags.includes(activeCategory));
 
             const query = searchQuery.toLowerCase();
             const matchesSearch =
-                service.title.toLowerCase().includes(query) ||
-                (service.desc && service.desc.toLowerCase().includes(query));
+                (service.title && service.title.toLowerCase().includes(query)) ||
+                (service.description && service.description.toLowerCase().includes(query));
 
             return matchesCategory && matchesSearch;
         });
 
         if (sortBy === "price-asc") {
             result = [...result].sort(
-                (a, b) => parsePrice(a.price) - parsePrice(b.price)
+                (a, b) => parsePrice(a.pricing?.price || a.price) - parsePrice(b.pricing?.price || b.price)
             );
         } else if (sortBy === "price-desc") {
             result = [...result].sort(
-                (a, b) => parsePrice(b.price) - parsePrice(a.price)
+                (a, b) => parsePrice(b.pricing?.price || b.price) - parsePrice(a.pricing?.price || a.price)
             );
         } else if (sortBy === "title") {
             result = [...result].sort((a, b) =>
-                a.title.localeCompare(b.title)
+                (a.title || "").localeCompare(b.title || "")
             );
         }
 
         return result;
-    }, [activeCategory, searchQuery, sortBy]);
+    }, [servicesData, activeCategory, searchQuery, sortBy]);
 
-    const handleSort = () => {
-        const currentIndex = SORT_OPTIONS.indexOf(sortBy);
-        const nextIndex = (currentIndex + 1) % SORT_OPTIONS.length;
-        setSortBy(SORT_OPTIONS[nextIndex]);
+    const handleSort = (newSortBy) => {
+        setSortBy(newSortBy);
     };
 
     return (
         <>
-            <main>
-                <HeroSection
-                    parallax={parallax}
-                />
+            <Container>
+                <main>
+                    <HeroSection
+                        parallax={parallax}
+                    />
 
-                <FilterBar
-                    categories={CATEGORIES}
-                    activeCategory={activeCategory}
-                    onCategoryChange={setActiveCategory}
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    onSort={handleSort}
-                    sortBy={sortBy}
-                />
+                    <FilterBar
+                        categories={categoriesData}
+                        activeCategory={activeCategory}
+                        onCategoryChange={setActiveCategory}
+                        searchQuery={searchQuery}
+                        onSearchChange={setSearchQuery}
+                        onSort={handleSort}
+                        sortBy={sortBy}
+                    />
 
-                <ServiceGrid
-                    services={filteredServices}
-                    featuredService={featuredService}
-                />
+                    {isLoading ? (
+                        <div className="flex h-64 items-center justify-center">
+                            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                        </div>
+                    ) : (
+                        <ServiceGrid
+                            services={filteredServices}
+                            featuredService={featuredService}
+                        />
+                    )}
 
-                <CTASection />
-            </main>
+                    <CTASection />
+                </main>
 
-            <ReviewSection
-                reviews={REVIEWS_DATA}
-            />
+                {!isLoading && reviewsData.length > 0 && (
+                    <ReviewSection
+                        reviews={reviewsData}
+                    />
+                )}
+            </Container>
         </>
     );
-
 }

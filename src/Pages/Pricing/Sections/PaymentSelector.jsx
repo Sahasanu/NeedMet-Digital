@@ -6,7 +6,7 @@ export default function PaymentSelector({
 }) {
   return (
     <div>
-      <label className="mb-3 block text-xs uppercase tracking-wider text-[#216963]">
+      <label className="mb-3 block text-xs uppercase tracking-wider text-text-secondary">
         Payment Method
       </label>
 

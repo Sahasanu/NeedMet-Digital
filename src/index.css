@@ -1,7 +1,55 @@
 @import "tailwindcss";
+@import "../colors.css";
+@import "../typography.css";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-lighter: var(--primary-lighter);
+  --color-primary-surface: var(--primary-surface);
+  
+  --color-accent: var(--accent);
+  --color-accent-yellow: var(--accent-yellow);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-red: var(--accent-red);
+  
+  --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-dark: var(--background-dark);
+  
+  --color-surface: var(--surface);
+  --color-surface-green: var(--surface-green);
+  --color-surface-overlay: var(--surface-overlay);
+  
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-light: var(--text-light);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-accent: var(--text-accent);
+  
+  --color-status-open: var(--status-open);
+  --color-status-open-bg: var(--status-open-bg);
+  --color-status-new: var(--status-new);
+  --color-status-new-bg: var(--status-new-bg);
+  --color-status-available: var(--status-available);
+  --color-status-available-bg: var(--status-available-bg);
+  
+  --color-border: var(--border);
+  --color-border-green: var(--border-green);
+  --color-border-primary-surface: var(--border-primary-surface);
+
+  --font-primary: var(--font-primary);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+}
 
 @layer base {
   body {
     overflow-x: hidden;
   }
+}
+
+.icon-sm {
+  font-size: 16px;
 }

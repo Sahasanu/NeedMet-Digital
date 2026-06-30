@@ -3,13 +3,13 @@ export default function HeroBadge({
     text
 }) {
     return (
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#00685f]/20 bg-[#00685f]/10 px-4 py-2">
+        <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
 
-            <span className="material-symbols-outlined text-[#00685f] text-lg">
+            <span className="material-symbols-outlined text-primary text-lg">
                 {icon}
             </span>
 
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#00685f]">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
                 {text}
             </span>
 

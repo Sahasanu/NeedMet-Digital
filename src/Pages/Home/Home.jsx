@@ -103,6 +103,9 @@ export default function Home() {
     return (
         <>
             <Container>
+                <div>
+                    
+              
                 <main>
                     <HeroSection
                         parallax={parallax}
@@ -137,6 +140,7 @@ export default function Home() {
                         reviews={reviewsData}
                     />
                 )}
+                  </div>
             </Container>
         </>
     );

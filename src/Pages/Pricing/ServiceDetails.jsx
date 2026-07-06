@@ -150,7 +150,7 @@ export default function ServiceDetails() {
         couponCode={cashContext?.couponCode}
       />
       {/* Main Layout */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-0 py-10 pb-32 lg:pb-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-5 lg:px-5 py-10 pb-32 lg:pb-10">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
 
           {/* Left */}

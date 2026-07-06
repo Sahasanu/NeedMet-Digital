@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import useAuth from "../../hooks/useAuth";
@@ -25,15 +25,21 @@ export default function Login() {
   }, [currentUser, navigate, location]);
 
   useEffect(() => {
-    // Setup recaptcha
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-        size: "invisible",
-        callback: (response) => {
-          // reCAPTCHA solved
-        },
-      });
-    }
+    const verifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      size: "invisible",
+      callback: (response) => {
+        // reCAPTCHA solved
+      },
+    });
+
+    window.recaptchaVerifier = verifier;
+
+    return () => {
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
+    };
   }, []);
 
   const handleSendOtp = async (e) => {
@@ -247,9 +253,9 @@ export default function Login() {
           <div className="space-y-6 pt-6 text-center border-t border-gray-100">
             <p className="text-sm text-gray-600 font-primary">
               Don't have an account?{" "}
-              <a href="/signup" className="font-bold text-[#0f5c3e] hover:text-[#1a8a5a] transition-colors font-heading">
+              <Link to="/signup" className="font-bold text-[#0f5c3e] hover:text-[#1a8a5a] transition-colors font-heading">
                 Sign up
-              </a>
+              </Link>
             </p>
             
             <p className="text-xs text-gray-400 max-w-xs mx-auto leading-relaxed font-primary">

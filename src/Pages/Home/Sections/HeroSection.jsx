@@ -36,18 +36,18 @@ export default function HeroSection({
                     <HeroBadge text={badge} />
 
                     <div className="w-full">
-                        <h1 className="text-4xl font-bold font-heading leading-[1.1] tracking-[-0.02em] text-[#0d3d2e] sm:text-5xl lg:text-7xl">
+                        <h1 className="hero-headline font-primary text-[#0d3d2e] lg:text-left text-center">
                             {title}
 
                             <br />
 
-                            <span className="font-display font-normal italic text-primary">
+                            <span className="hero-headline__accent font-display font-normal italic text-primary">
                                 {highlight}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8 mx-auto lg:mx-0">
+                    <p className="hero-subtext text-text-secondary max-w-xl mx-auto lg:mx-0">
                         {description}
                     </p>
 

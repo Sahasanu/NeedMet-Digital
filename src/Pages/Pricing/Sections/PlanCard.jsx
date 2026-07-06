@@ -22,7 +22,7 @@ export default function PlanCard({
         </div>
       )}
 
-      <h3 className="text-3xl font-bold">{title}</h3>
+      <h3 className="text-2xl font-bold">{title}</h3>
 
       <div className="mt-3 flex items-end gap-1">
         <span className="text-3xl font-bold text-primary">

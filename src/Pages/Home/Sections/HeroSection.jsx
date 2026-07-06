@@ -18,52 +18,41 @@ export default function HeroSection({
     return (
         <section
             id="about"
-            className="relative overflow-hidden scroll-mt-36 px-5 py-6 sm:py-10 lg:py-16"
+            className="relative overflow-hidden scroll-mt-36 px-5 py-6 sm:py-10 lg:py-32"
         >
             {/* Background Blob */}
-            <div
+            {/* <div
                 className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-gradient-to-br from-primary to-primary-light opacity-10 blur-3xl transition-transform duration-150 sm:h-80 sm:w-80 lg:h-96 lg:w-96"
                 style={{
                     transform: `translate(${parallax.x}px, ${parallax.y}px)`,
                 }}
-            />
+            /> */}
 
-            <div className="flex flex-col items-center gap-6 lg:flex-row lg:gap-16">
+            <div className="flex flex-col items-center justify-center gap-6">
 
                 {/* Left Content */}
-                <div className="flex-1 space-y-6 sm:space-y-8 flex flex-col items-center text-center lg:items-start lg:text-left">
+                <div className="flex-1 w-full space-y-6 sm:space-y-8 flex flex-col items-center text-center">
 
                     <HeroBadge text={badge} />
 
                     <div className="w-full">
-                        <h1 className="hero-headline font-primary text-[#0d3d2e] lg:text-left text-center">
+                        <h1 className="hero-headline text-3xl sm:text-5xl lg:text-6xl font-primary text-[#0d3d2e] text-center w-full">
                             {title}
 
                             <br />
 
-                            <span className="hero-headline__accent font-display font-normal italic text-primary">
+                            <span className=" font-display font-normal ">
                                 {highlight}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="hero-subtext text-text-secondary max-w-xl mx-auto lg:mx-0">
+                    <p className="font-primary mt-[-6%] md:mt-[-3%] sm:mt-[-6%] lg:mt-[-2%] text-text-secondary max-w-xl mx-auto">
                         {description}
                     </p>
 
-                    {/* Mobile Image (Heading -> Sub-para -> Image -> Button) */}
-                    <div className="block lg:hidden w-full max-w-sm sm:max-w-md my-4 relative">
-                        <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light opacity-10" />
-                            <img
-                                src={image}
-                                alt="Hero Mobile"
-                                className="h-full w-full object-cover"
-                            />
-                        </div>
-                    </div>
 
-                    <div className="flex flex-col gap-4 w-full sm:flex-row sm:justify-center lg:justify-start">
+                    <div className="flex flex-col gap-4 w-full sm:flex-row sm:justify-center">
 
                         <Button
                             className="w-full px-8 py-3 sm:w-auto sm:px-10 lg:px-12"
@@ -85,7 +74,8 @@ export default function HeroSection({
                 </div>
 
                 {/* Right Image (Desktop Only) */}
-                <div className="hidden lg:block relative w-full max-w-sm flex-1 sm:max-w-md lg:max-w-none">
+                
+                {/* <div className="hidden lg:block relative w-full max-w-sm flex-1 sm:max-w-md lg:max-w-none">
 
                     <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl lg:rounded-3xl">
 
@@ -99,7 +89,7 @@ export default function HeroSection({
 
                     </div>
 
-                    {/* Stats Card - Only Desktop */}
+                  
                     <div className="hidden lg:block">
                         <HeroStatsCard
                             title="Avg. Growth"
@@ -108,7 +98,7 @@ export default function HeroSection({
                         />
                     </div>
 
-                </div>
+                </div> */}
 
             </div>
         </section>

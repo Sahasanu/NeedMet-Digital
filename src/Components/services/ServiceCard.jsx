@@ -129,7 +129,7 @@ export default function ServiceCard({
                             {featured ? "Bundle Price" : "Starts at"}
                         </p>
 
-                        <p className="text-xl sm:text-2xl font-bold text-primary">
+                        <p className="text-xl sm:text-3xl font-bold text-primary">
                             {price}
                         </p>
                     </div>

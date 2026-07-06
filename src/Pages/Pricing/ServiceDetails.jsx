@@ -140,7 +140,7 @@ export default function ServiceDetails() {
   };
 
   return (
-    <div style={{ zoom: 0.90 }}>
+    <div>
       <LoginPromptModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
       <CashCodeModal
         isOpen={showCashModal}

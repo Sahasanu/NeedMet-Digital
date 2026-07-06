@@ -102,9 +102,8 @@ export default function Navbar() {
                         </div>
                     ) : (
                         <Button
-                            variant="ghost"
                             onClick={handleLoginRedirect}
-                            className="bg-green-300 hover:bg-green-400 px-4 py-1 text-lg text-black sm:h-10 sm:px-4 sm:text-sm lg:h-11 lg:px-6 lg:text-base"
+                            className="bg-gradient-to-r from-[#0f5c3e] to-[#1a8a5a] hover:opacity-95 text-white font-bold px-5 py-2 sm:h-10 sm:px-5 sm:text-sm lg:h-11 lg:px-6 lg:text-base rounded-xl transition-all border-0 shadow-sm uppercase tracking-wider"
                         >
                             Login
                         </Button>

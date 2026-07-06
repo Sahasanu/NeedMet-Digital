@@ -8,7 +8,7 @@ export default function ServiceGrid({
  console.log(services)
     return (
 
-        <section id="services" className="py-20 scroll-mt-36">
+        <section id="services" className="py-10 sm:py-14 scroll-mt-36">
 
             <Container>
 

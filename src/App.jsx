@@ -7,6 +7,7 @@ import ServiceDetails from './Pages/Pricing/ServiceDetails'
 import SuccessPage from './Pages/Checkout/SuccessPage'
 import FailurePage from './Pages/Checkout/FailurePage'
 import Login from './Pages/Auth/Login'
+import Signup from './Pages/Auth/Signup'
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
               <Route path="/checkout/success" element={<SuccessPage />} />
               <Route path="/checkout/failure" element={<FailurePage />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
             </Route>
           </Routes>
         </Router>

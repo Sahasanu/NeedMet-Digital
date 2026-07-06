@@ -6,7 +6,7 @@ export default function CTASection({
   description = "Get a free consultation with our digital experts. We'll analyze your business and recommend the perfect digital strategy."
 }) {
   return (
-    <section className="py-2 sm:py-16 lg:py-20 px-5">
+    <section className="py-6 sm:py-10 lg:py-12 px-5">
       <div className="relative overflow-hidden rounded-3xl lg:rounded-[40px] bg-gradient-to-br from-primary to-primary-light px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20 text-center text-white shadow-2xl">
 
         {/* Background Blobs */}

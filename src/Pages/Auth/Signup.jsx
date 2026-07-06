@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber, updateProfile } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import useAuth from "../../hooks/useAuth";
 
-export default function Login() {
+export default function Signup() {
+  const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -16,7 +17,7 @@ export default function Login() {
   const location = useLocation();
   const { currentUser } = useAuth();
 
-  // Redirect to home (or previous page) if already logged in
+  // Redirect if already logged in
   useEffect(() => {
     if (currentUser) {
       const from = location.state?.from || "/";
@@ -25,19 +26,20 @@ export default function Login() {
   }, [currentUser, navigate, location]);
 
   useEffect(() => {
-    // Setup recaptcha
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
         size: "invisible",
-        callback: (response) => {
-          // reCAPTCHA solved
-        },
+        callback: () => {}
       });
     }
   }, []);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+    if (!fullName.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
     if (!phoneNumber || phoneNumber.length < 10) {
       setError("Please enter a valid 10-digit phone number");
       return;
@@ -46,7 +48,6 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    // Standardize to Indian +91 format if they just typed 10 digits
     const formattedNumber = phoneNumber.startsWith("+") 
       ? phoneNumber 
       : `+91${phoneNumber}`;
@@ -75,10 +76,14 @@ export default function Login() {
     setError("");
 
     try {
-      await confirmationResult.confirm(otp);
-      // Success! User is authenticated via AuthContext automatically
+      const result = await confirmationResult.confirm(otp);
+      // Update display name with the full name entered
+      if (result.user) {
+        await updateProfile(result.user, {
+          displayName: fullName.trim()
+        });
+      }
       
-      // Navigate back to where they came from, or home
       const from = location.state?.from || "/";
       navigate(from, { replace: true });
     } catch (err) {
@@ -92,49 +97,7 @@ export default function Login() {
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row bg-[#fafdfb]">
       
-      {/* Left Column (Marketing) - Hidden on Mobile */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between bg-[#0d3d2e] p-12 xl:p-20 text-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-[#1a8a5a]/20 blur-3xl" />
-        <div className="absolute right-10 top-10 h-60 w-60 rounded-full bg-[#22c47a]/10 blur-3xl" />
-        
-        {/* Top Logo */}
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold font-heading tracking-tight">NeedMet</span>
-        </div>
-        
-        {/* Center Content */}
-        <div className="max-w-md space-y-6 my-auto">
-          <h1 className="text-4xl xl:text-5xl font-bold font-heading leading-tight text-white">
-            Connect needs with solutions.
-          </h1>
-          <p className="text-base xl:text-lg text-white/80 leading-relaxed font-primary">
-            A trusted local platform where communities help each other discover services, opportunities and support.
-          </p>
-          
-          <ul className="space-y-4 pt-6 text-sm xl:text-base font-primary">
-            <li className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
-              <span>Verified community members</span>
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
-              <span>Real-time listings & updates</span>
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
-              <span>Secure OTP authentication</span>
-            </li>
-          </ul>
-        </div>
-        
-        {/* Footer info */}
-        <div className="text-xs text-white/40 font-primary">
-          © 2026 NeedMet. All rights reserved.
-        </div>
-      </div>
-
-      {/* Right Column (Login Card) */}
+      {/* Left Column (Signup Card) */}
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8 bg-white">
         <div className="w-full max-w-md space-y-8">
           
@@ -143,40 +106,62 @@ export default function Login() {
             <span className="text-xs font-bold tracking-widest text-[#0f5c3e] uppercase font-heading">
               {otpSent ? "STEP 2 OF 2" : "STEP 1 OF 2"}
             </span>
-            <h2 className="text-3xl xl:text-4xl font-bold text-gray-900 font-heading">
-              {otpSent ? "Verification Code" : "Welcome back"}
+            <h2 className="text-3xl xl:text-4xl font-bold text-[#0f5c3e] font-heading">
+              {otpSent ? "Verification Code" : "Create Account"}
             </h2>
             <p className="text-sm text-gray-500 font-primary">
               {otpSent 
                 ? `Enter the 6-digit OTP sent to +91 ${phoneNumber}` 
-                : "Enter your phone number to receive a verification code."}
+                : "Join NeedMet and connect with your local community."}
             </p>
           </div>
 
-          {/* This invisible container is required by Firebase Recaptcha */}
+          {/* Invisible recaptcha container */}
           <div id="recaptcha-container"></div>
 
           {!otpSent ? (
             <form onSubmit={handleSendOtp} className="mt-8 space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-gray-600 font-heading">
-                  Mobile Number
-                </label>
-                <div className="flex rounded-xl shadow-sm border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-[#0f5c3e]/20 focus-within:border-[#0f5c3e]">
-                  <span className="flex items-center bg-gray-50 px-4 text-gray-500 text-sm font-medium border-r border-gray-200">
-                    +91
-                  </span>
+              <div className="space-y-4">
+                
+                {/* Full Name field */}
+                <div className="space-y-2">
+                  <label htmlFor="fullName" className="block text-xs font-bold uppercase tracking-wider text-gray-600 font-heading">
+                    Full Name
+                  </label>
                   <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    className="block w-full py-3.5 px-4 text-gray-900 placeholder-gray-400 focus:outline-none text-base font-primary"
-                    placeholder="9876543210"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                    type="text"
+                    name="fullName"
+                    id="fullName"
+                    className="block w-full rounded-xl border border-gray-200 py-3.5 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0f5c3e]/20 focus:border-[#0f5c3e] text-base font-primary"
+                    placeholder="Enter your full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     required
                   />
                 </div>
+
+                {/* Mobile Number field */}
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-gray-600 font-heading">
+                    Mobile Number
+                  </label>
+                  <div className="flex rounded-xl shadow-sm border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-[#0f5c3e]/20 focus-within:border-[#0f5c3e]">
+                    <span className="flex items-center bg-gray-50 px-4 text-[#0f5c3e] text-sm font-semibold border-r border-gray-200">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      className="block w-full py-3.5 px-4 text-gray-900 placeholder-gray-400 focus:outline-none text-base font-primary"
+                      placeholder="9876543210"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      required
+                    />
+                  </div>
+                </div>
+
               </div>
 
               {error && (
@@ -185,7 +170,7 @@ export default function Login() {
 
               <button
                 type="submit"
-                disabled={loading || phoneNumber.length !== 10}
+                disabled={loading || phoneNumber.length !== 10 || !fullName.trim()}
                 className="flex w-full justify-center items-center rounded-xl bg-gradient-to-r from-[#0f5c3e] to-[#1a8a5a] py-3.5 px-4 text-sm font-bold text-white shadow-md hover:opacity-95 focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed uppercase tracking-wider font-heading"
               >
                 {loading ? (
@@ -226,7 +211,7 @@ export default function Login() {
                   {loading ? (
                     <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                   ) : (
-                    "Verify & Login"
+                    "Verify & Signup"
                   )}
                 </button>
                 <button
@@ -237,23 +222,23 @@ export default function Login() {
                   }}
                   className="text-sm font-semibold text-[#0f5c3e] hover:text-[#1a8a5a] transition-colors font-heading text-center"
                 >
-                  Change Phone Number
+                  Change Details
                 </button>
               </div>
             </form>
           )}
 
-          {/* Sign Up Link & Disclaimer */}
+          {/* Log In Link & Disclaimer */}
           <div className="space-y-6 pt-6 text-center border-t border-gray-100">
             <p className="text-sm text-gray-600 font-primary">
-              Don't have an account?{" "}
-              <a href="/signup" className="font-bold text-[#0f5c3e] hover:text-[#1a8a5a] transition-colors font-heading">
-                Sign up
+              Already have an account?{" "}
+              <a href="/login" className="font-bold text-[#0f5c3e] hover:text-[#1a8a5a] transition-colors font-heading">
+                Log in
               </a>
             </p>
             
             <p className="text-xs text-gray-400 max-w-xs mx-auto leading-relaxed font-primary">
-              By continuing, you agree to our{" "}
+              By creating an account, you agree to our{" "}
               <a href="/terms_service" className="underline hover:text-[#0f5c3e] transition-colors">
                 Terms of Service
               </a>{" "}
@@ -264,6 +249,48 @@ export default function Login() {
             </p>
           </div>
 
+        </div>
+      </div>
+
+      {/* Right Column (Marketing) - Hidden on Mobile */}
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between bg-[#0d3d2e] p-12 xl:p-20 text-white relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-[#1a8a5a]/20 blur-3xl" />
+        <div className="absolute right-10 top-10 h-60 w-60 rounded-full bg-[#22c47a]/10 blur-3xl" />
+        
+        {/* Top Logo */}
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold font-heading tracking-tight">NeedMet</span>
+        </div>
+        
+        {/* Center Content */}
+        <div className="max-w-md space-y-6 my-auto">
+          <h1 className="text-4xl xl:text-5xl font-bold font-heading leading-tight text-white tracking-tight">
+            Become a part of NeedMet.
+          </h1>
+          <p className="text-base xl:text-lg text-white/80 leading-relaxed font-primary">
+            Discover trusted local services, connect with your community and help others find what they need.
+          </p>
+          
+          <ul className="space-y-4 pt-6 text-sm xl:text-base font-primary">
+            <li className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
+              <span>Find local services nearby</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
+              <span>Trusted reviews & ratings</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#22c47a] bg-[#1a8a5a]/20 p-1.5 rounded-full text-lg">check</span>
+              <span>Grow with your community</span>
+            </li>
+          </ul>
+        </div>
+        
+        {/* Footer info */}
+        <div className="text-xs text-white/40 font-primary">
+          © 2026 NeedMet. All rights reserved.
         </div>
       </div>
 

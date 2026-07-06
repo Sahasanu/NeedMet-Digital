@@ -18,7 +18,7 @@ export default function HeroSection({
     return (
         <section
             id="about"
-            className="relative overflow-hidden scroll-mt-36 px-5 py-12 sm:py-16 lg:py-24"
+            className="relative overflow-hidden scroll-mt-36 px-5 py-6 sm:py-10 lg:py-16"
         >
             {/* Background Blob */}
             <div
@@ -28,30 +28,42 @@ export default function HeroSection({
                 }}
             />
 
-            <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:gap-16">
+            <div className="flex flex-col items-center gap-6 lg:flex-row lg:gap-16">
 
                 {/* Left Content */}
-                <div className="flex-1 space-y-6 sm:space-y-8">
+                <div className="flex-1 space-y-6 sm:space-y-8 flex flex-col items-center text-center lg:items-start lg:text-left">
 
                     <HeroBadge text={badge} />
 
-                    <div className="">
-                        <h1 className="text-4xl font-bold leading-tight text-text sm:text-5xl lg:text-7xl">
+                    <div className="w-full">
+                        <h1 className="text-4xl font-bold font-heading leading-[1.1] tracking-[-0.02em] text-[#0d3d2e] sm:text-5xl lg:text-7xl">
                             {title}
 
                             <br />
 
-                            <span className="font-normal italic text-primary">
+                            <span className="font-display font-normal italic text-primary">
                                 {highlight}
                             </span>
                         </h1>
                     </div>
 
-                    <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8">
+                    <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8 mx-auto lg:mx-0">
                         {description}
                     </p>
 
-                    <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                    {/* Mobile Image (Heading -> Sub-para -> Image -> Button) */}
+                    <div className="block lg:hidden w-full max-w-sm sm:max-w-md my-4 relative">
+                        <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light opacity-10" />
+                            <img
+                                src={image}
+                                alt="Hero Mobile"
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 w-full sm:flex-row sm:justify-center lg:justify-start">
 
                         <Button
                             className="w-full px-8 py-3 sm:w-auto sm:px-10 lg:px-12"
@@ -72,8 +84,8 @@ export default function HeroSection({
 
                 </div>
 
-                {/* Right Image */}
-                <div className="relative w-full max-w-sm flex-1 sm:max-w-md lg:max-w-none">
+                {/* Right Image (Desktop Only) */}
+                <div className="hidden lg:block relative w-full max-w-sm flex-1 sm:max-w-md lg:max-w-none">
 
                     <div className="aspect-square overflow-hidden rounded-2xl shadow-2xl lg:rounded-3xl">
 

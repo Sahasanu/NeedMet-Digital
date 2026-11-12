@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { adminApi } from "../../services/adminApi";
-import { queryKeys } from "../../../lib/queryClient";
+import { adminApi } from "../../../services/adminApi";
+import { queryKeys } from "../../../../lib/queryClient";
 
 /**
  * Custom TanStack Query hook for cursor-paginated Cash Codes.

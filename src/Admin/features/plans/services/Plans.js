@@ -6,7 +6,7 @@ import {
   publishPlan,
   archivePlan,
   deletePlan,
-} from "../../services/db";
+} from "../../../../services/db";
 
 const getPlans = async (status = "all") => {
   try {

@@ -5,10 +5,12 @@ const PlansDashboard = lazy(() => import("../features/plans/pages/PlansDashboard
 const PlanForm = lazy(() => import("../features/plans/pages/PlanForm"));
 const Coupons = lazy(() => import("../features/coupons/pages/Coupons"));
 const CashCodes = lazy(() => import("../features/cashcodes/pages/CashCodes"));
+const Purchases = lazy(() => import("../features/purchases/pages/Purchases"));
+const Payments = lazy(() => import("../features/payments/pages/Payments"));
 
 /**
  * Admin portal route declarations
- * Only includes Plans & Services, Coupons, and Cash Codes
+ * Includes Plans & Services, Coupons, Cash Codes, Purchases, and Payments
  */
 export const adminRoutes = [
   {
@@ -38,6 +40,22 @@ export const adminRoutes = [
   {
     path: "admin/cash-codes",
     element: <CashCodes />,
+  },
+  {
+    path: "admin/purchases",
+    element: <Purchases />,
+  },
+  {
+    path: "admin/orders",
+    element: <Navigate to="/admin/purchases" replace />,
+  },
+  {
+    path: "admin/payments",
+    element: <Payments />,
+  },
+  {
+    path: "admin/transactions",
+    element: <Navigate to="/admin/payments" replace />,
   },
 ];
 

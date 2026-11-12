@@ -94,7 +94,7 @@ export default function KpiCard({
   const content = (
     <>
       <div className="flex items-center justify-between gap-3 mb-2.5">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 line-clamp-1">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 line-clamp-1 font-heading">
           {displayTitle}
         </span>
         {Icon && (
@@ -111,7 +111,7 @@ export default function KpiCard({
           <div className="h-8 w-24 bg-slate-200 animate-pulse rounded-lg mt-1" />
         ) : (
           <div
-            className={`text-2xl sm:text-3xl font-extrabold font-display tracking-tight transition-colors ${computedValueColor}`}
+            className={`text-2xl sm:text-3xl font-extrabold font-heading tracking-tight transition-colors ${computedValueColor}`}
           >
             {value !== undefined && value !== null ? value : "—"}
           </div>
@@ -119,7 +119,7 @@ export default function KpiCard({
 
         {badgeText && (
           <span
-            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+            className={`text-[10px] font-bold font-heading px-2 py-0.5 rounded-full border shrink-0 ${
               badgeType && COLOR_VARIANTS[badgeType]
                 ? COLOR_VARIANTS[badgeType].badge
                 : theme.badge
